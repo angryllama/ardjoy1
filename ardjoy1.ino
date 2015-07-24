@@ -5,16 +5,16 @@
 
 #define joystickPin 18 // analog pin A4 (27)
 
-#define maxSpeed 1200 // speed measured in Hz
+#define maxSpeed 20000 // speed measured in Hz
 #define minSpeed 1 // speed measured in Hz
 
 #define deadband 30 // deadband for consideration of 0 speed
 
 // define our step pins
-# define sliderStep 9 // 9
+#define sliderStep 52 // 52
 
 // define our direction pins
-# define sliderDir 8 // 8
+#define sliderDir 53 // 53
 
 // instantiate out objects
 stepMotor slider(sliderStep, sliderDir); // stepper motor
@@ -35,7 +35,7 @@ void loop() {
   // DAN
   Serial.println(smoothAnalogVal);
   Serial.println(stepperSpeed);
-  slider.step(stepperSpeed); // request a step with our joystick driven speed
+  slider.step(stepperSpeed*2); // request a step with our joystick driven speed
 
 }
 
