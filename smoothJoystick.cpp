@@ -1,6 +1,12 @@
 #include "Arduino.h"
 #include "smoothJoystick.h"
 
+// http://forum.arduino.cc/index.php?topic=6549.0
+// could be helpful for faster analog read
+// http://frenki.net/2013/10/fast-analogread-with-arduino-due/
+// http://forum.arduino.cc/index.php?topic=137635.5
+// this is even better! but more confusing!
+
 // joystick object
 joystick::joystick(byte analogPin, unsigned int initialVal) {
 
@@ -10,7 +16,8 @@ joystick::joystick(byte analogPin, unsigned int initialVal) {
   // changed from 1024
 
   // setup analog pins as input
-  pinMode(_analogPin, INPUT);
+  // Dan commented out for fast read
+  //pinMode(_analogPin, INPUT);
 
   // initialize our buffer to 512 - this is the joystick neutral position ??? 
   // does this mean if i change buffer to 512 this means it goes to 256?
@@ -29,7 +36,12 @@ joystick::joystick(byte analogPin, unsigned int initialVal) {
 // function responsible for reading analog pin and calculating new smoothed average
 unsigned int joystick::smoothRead(void) {
 
-  int readAnalogVal = analogRead(_analogPin); // read our new analog value
+  // added while loop from fast analogread
+  while((ADC->ADC_ISR & 0x80)==0); // wait for conversion
+  int readAnalogVal = ADC->ADC_CDR[7]; //get values
+
+  // DAN commented out the origrinal read
+  //int readAnalogVal = analogRead(_analogPin); // read our new analog value
 
   _bufferSum = _bufferSum - _buffer[_bufferIndex]; // remove our oldest analog read value from the buffer sum
   _bufferSum = _bufferSum + readAnalogVal; // add our new analog read value to buffer sum

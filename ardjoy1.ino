@@ -3,7 +3,7 @@
 #include "stepLib.h";
 #include "smoothJoystick.h";
 
-#define joystickPin 18 // analog pin A4 (27)
+#define joystickPin 54 // analog pin A0 (PA16)
 
 #define maxSpeed 20000 // speed measured in Hz
 #define minSpeed 1 // speed measured in Hz
@@ -25,6 +25,10 @@ void setup() {
 
 //DAN allows screen printing  
 Serial.begin(115200); // begin serial output @ 115200 baud
+
+//Fast Analog read
+ADC->ADC_MR |= 0x80;  //set free running mode on ADC
+ADC->ADC_CHER = 0x80; //enable ADC on pin A0
 
 }
 
