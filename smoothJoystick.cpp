@@ -49,7 +49,13 @@ unsigned int joystick::smoothRead(void) {
 
   // divide sum by buffer size to get our average buffer value which represents our smoothed analog value - note this division is relatively slow...
   // the notation >> X is the same as dividing by a value of X-bits, in our case 10-bit = 1024 which is the declared size of the array - this is a very fast way of dividing
-  smoothedVal = _bufferSum / _bufferSize;
+  // smoothedVal = _bufferSum >> 9;
+  
+  //Dan pre ver
+  //smoothedVal = _bufferSum / _bufferSize;
+
+  //Dan test ver >> 8 because 512???
+  smoothedVal = _bufferSum >> 8;
 
   // increment our buffer index so we know which analog value is the oldest
   _bufferIndex++;
