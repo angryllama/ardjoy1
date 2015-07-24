@@ -27,7 +27,7 @@ void setup() {
 Serial.begin(115200); // begin serial output @ 115200 baud
 
 //Fast Analog read
-ADC->ADC_MR |= 0x80;  //set free running mode on ADC
+ADC->ADC_MR |= 0x80;  //set free running mode on ADC 7 (Pin A0)
 ADC->ADC_CHER = 0x80; //enable ADC on pin A0
 
 }
