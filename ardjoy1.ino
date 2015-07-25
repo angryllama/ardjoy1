@@ -5,10 +5,10 @@
 
 #define joystickPin 54 // analog pin A0 (PA16)
 
-#define maxSpeed 100 // speed measured in Hz
+#define maxSpeed 10000 // speed measured in Hz
 #define minSpeed 1 // speed measured in Hz
 
-#define deadband 30 // deadband for consideration of 0 speed
+#define deadband 120 // deadband for consideration of 0 speed
 
 // define our step pins
 #define sliderStep 51 // 51
@@ -28,6 +28,7 @@ Serial.begin(115200); // begin serial output @ 115200 baud
 
 //Fast Analog read
 ADC->ADC_MR |= 0x80;  //set free running mode on ADC 7 (Pin A0)
+ADC->ADC_CR=2; // starts adc conversion
 ADC->ADC_CHER = 0x80; //enable ADC on pin A0
 
 }
@@ -51,12 +52,12 @@ void loop() {
 // the output is bounded by a min and max stepper speed
 signed int convertAnalogToSpeed(unsigned int analogVal) {
 
-  if (analogVal < 512 + deadband && analogVal > 512 - deadband) { // we are within deadband, return a 0 speed
+  if (analogVal < 2048 + deadband && analogVal > 2048 - deadband) { // we are within deadband, return a 0 speed
     return 0;
-  } else if (analogVal >= 512 + deadband) { // move in forward direction - return a positive speed
-    return map(analogVal, 512 + deadband, 1024, minSpeed, maxSpeed); // interpolate our joystick value to the proper speed
-  } else if (analogVal <= 512 - deadband) { // move in reverse direction - return a negative speed
-    return -map(analogVal, 512 - deadband, 0, minSpeed, maxSpeed); // interpolate our joystick value to the proper speed
+  } else if (analogVal >= 2048 + deadband) { // move in forward direction - return a positive speed
+    return map(analogVal, 2048 + deadband, 4096, minSpeed, maxSpeed); // interpolate our joystick value to the proper speed
+  } else if (analogVal <= 2048 - deadband) { // move in reverse direction - return a negative speed
+    return -map(analogVal, 2048 - deadband, 0, minSpeed, maxSpeed); // interpolate our joystick value to the proper speed
   }
 
 }

@@ -37,11 +37,11 @@ joystick::joystick(byte analogPin, unsigned int initialVal) {
 unsigned int joystick::smoothRead(void) {
 
   // added while loop from fast analogread
-   //while((ADC->ADC_ISR & 0x80)==0); // wait for conversion
-   //int readAnalogVal = ADC->ADC_CDR[7]; //get values
+   while((ADC->ADC_ISR & 0x80)==0); // wait for conversion
+   int readAnalogVal = ADC->ADC_CDR[7]; //get values
 
   // DAN commented out the origrinal read
-  int readAnalogVal = analogRead(_analogPin); // read our new analog value
+  //int readAnalogVal = analogRead(_analogPin); // read our new analog value
 
   _bufferSum = _bufferSum - _buffer[_bufferIndex]; // remove our oldest analog read value from the buffer sum
   _bufferSum = _bufferSum + readAnalogVal; // add our new analog read value to buffer sum
