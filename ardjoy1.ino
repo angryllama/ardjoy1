@@ -5,7 +5,7 @@
 
 #define joystickPin 54 // analog pin A0 (PA16)
 
-#define maxSpeed 10000 // speed measured in Hz
+#define maxSpeed 15000 // speed measured in Hz
 #define minSpeed 1 // speed measured in Hz
 
 #define deadband 120 // deadband for consideration of 0 speed
@@ -38,10 +38,10 @@ void loop() {
   unsigned int smoothAnalogVal = joy.smoothRead(); // get our smoothed analog value
   signed int stepperSpeed = convertAnalogToSpeed(smoothAnalogVal); // convert our analog value to a stepper speed with direction
   // DAN
-  Serial.print("Smoothed Analog Val: ");
-  Serial.println(smoothAnalogVal);
-  Serial.print("Step Speed: ");
-  Serial.println(stepperSpeed);
+  //Serial.print("Smoothed Analog Val: ");
+  //Serial.println(smoothAnalogVal);
+  //Serial.print("Step Speed: ");
+  //Serial.println(stepperSpeed);
   slider.step(stepperSpeed*2); // request a step with our joystick driven speed
   // DAN I updated above to be *2
 
