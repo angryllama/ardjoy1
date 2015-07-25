@@ -17,7 +17,7 @@ joystick::joystick(byte analogPin, unsigned int initialVal) {
 
   // setup analog pins as input
   // Dan commented out for fast read
-  //pinMode(_analogPin, INPUT);
+  pinMode(_analogPin, INPUT);
 
   // initialize our buffer to 512 - this is the joystick neutral position ??? 
   // does this mean if i change buffer to 512 this means it goes to 256?
@@ -37,8 +37,8 @@ joystick::joystick(byte analogPin, unsigned int initialVal) {
 unsigned int joystick::smoothRead(void) {
 
   // added while loop from fast analogread
-  // while((ADC->ADC_ISR & 0x80)==0); // wait for conversion
-  // int readAnalogVal = ADC->ADC_CDR[7]; //get values
+   //while((ADC->ADC_ISR & 0x80)==0); // wait for conversion
+   //int readAnalogVal = ADC->ADC_CDR[7]; //get values
 
   // DAN commented out the origrinal read
   int readAnalogVal = analogRead(_analogPin); // read our new analog value
@@ -49,13 +49,12 @@ unsigned int joystick::smoothRead(void) {
 
   // divide sum by buffer size to get our average buffer value which represents our smoothed analog value - note this division is relatively slow...
   // the notation >> X is the same as dividing by a value of X-bits, in our case 10-bit = 1024 which is the declared size of the array - this is a very fast way of dividing
-  // smoothedVal = _bufferSum >> 9;
+  // I don't know what it was originally, but 9 works!
+  smoothedVal = _bufferSum >> 9;
   
   //Dan pre ver
-  smoothedVal = _bufferSum / _bufferSize;
+  //smoothedVal = _bufferSum / _bufferSize;
 
-  //Dan test ver >> 8 because 512???
-  //smoothedVal = _bufferSum >> 8;
 
   // increment our buffer index so we know which analog value is the oldest
   _bufferIndex++;

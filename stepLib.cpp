@@ -24,11 +24,11 @@ stepMotor::stepMotor(byte stepPin, byte dirPin) {
    pinMode(_dirPin, OUTPUT);
 
    // initialize our digital pins to LOW
-   //digitalWriteDirect(_stepPin, LOW);
-   //digitalWriteDirect(_dirPin, LOW);
+   digitalWriteDirect(_stepPin, LOW);
+   digitalWriteDirect(_dirPin, LOW);
 
-   digitalWrite(_stepPin, LOW);
-   digitalWrite(_dirPin, LOW);
+   //digitalWrite(_stepPin, LOW);
+   //digitalWrite(_dirPin, LOW);
 
    _stepCycle = false; // this keeps track of which end of the step cycle we are on: high or low
    _dir = false;
@@ -47,19 +47,19 @@ void stepMotor::step(signed int stepFreq) {
 
    // set our direction pin properly, we will only set this once for every requested direction change to save on CPU time
    if (_dir == false && stepFreq < 0) { // we were previously moving backwards, and are now requesting to move forward
-     //digitalWriteDirect(_dirPin, HIGH);
-     digitalWrite(_dirPin, HIGH);
+     digitalWriteDirect(_dirPin, HIGH);
+     //digitalWrite(_dirPin, HIGH);
      _dir = true;
    } else if (_dir == true && stepFreq > 0) { // we were previously moving forward, and are now requestion to move backward
-     //digitalWriteDirect(_dirPin, LOW);
-     digitalWrite(_dirPin, LOW);
+     digitalWriteDirect(_dirPin, LOW);
+     //digitalWrite(_dirPin, LOW);
      _dir = false;
    }
 
    // if the proper amount of time has passed and we are requesting a speed, let's go ahead and proceed to the next half of our step cycle
    if (stepFreq != 0 && _time >= _lastStepTime + _stepPeriod) {
-      //digitalWriteDirect(_stepPin, _stepCycle == true); // a compact way of writing either HIGH/LOW to our step pin based on where we are on our step cycle
-      digitalWrite(_stepPin, _stepCycle == true); // a compact way of writing either HIGH/LOW to our step pin based on where we are on our step cycle
+      digitalWriteDirect(_stepPin, _stepCycle == true); // a compact way of writing either HIGH/LOW to our step pin based on where we are on our step cycle
+      //digitalWrite(_stepPin, _stepCycle == true); // a compact way of writing either HIGH/LOW to our step pin based on where we are on our step cycle
       _stepCycle = !_stepCycle; // this simply flips our Boolean // DAN: wtf, why are we doing this in two steps, this is stupid.
 
       _lastStepTime = _time; // update the time we last stepped
